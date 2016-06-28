@@ -131,38 +131,26 @@
         <not><isset property="${zimbra.buildinfo.platform}"/></not>
     </condition>
 
-    <loadfile property="zimbra.buildinfo.majorversion" srcFile="${zimbra.root.dir}/zm-build/RE/MAJOR">
+    <loadfile property="zimbra.buildinfo.majorversion" srcFile="${zimbra.root.dir}/zimbra-package-stub/version/MAJOR">
       <filterchain>
         <striplinebreaks/>
       </filterchain>
     </loadfile>
 
-    <loadfile property="zimbra.buildinfo.minorversion" srcFile="${zimbra.root.dir}/zm-build/RE/MINOR">
+    <loadfile property="zimbra.buildinfo.minorversion" srcFile="${zimbra.root.dir}/zimbra-package-stub/version/MINOR">
       <filterchain>
         <striplinebreaks/>
       </filterchain>
     </loadfile>
 
-    <loadfile property="zimbra.buildinfo.microtag" srcFile="${zimbra.root.dir}/zm-build/RE/MICRO">
-      <filterchain>
-        <striplinebreaks/>
-      </filterchain>
-    </loadfile>
-
-    <loadfile property="zimbra.buildinfo.relnum" srcFile="${zimbra.root.dir}/zm-build/RE/RELEASE">
-      <filterchain>
-        <striplinebreaks/>
-      </filterchain>
-    </loadfile>
-
-    <loadfile property="zimbra.buildinfo.buildnum" srcFile="${zimbra.root.dir}/zm-build/RE/BUILD">
+    <loadfile property="zimbra.buildinfo.microtag" srcFile="${zimbra.root.dir}/zimbra-package-stub/version/MICRO">
       <filterchain>
         <striplinebreaks/>
       </filterchain>
     </loadfile>
 
     <property name="zimbra.buildinfo.version"
-              value="${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microtag}_${zimbra.buildinfo.buildnum}.${user.name}"
+              value="${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microtag}_0.${user.name}"
               />
 
     <propertyregex property="zimbra.buildinfo.majorversion"
@@ -187,17 +175,6 @@
                    input="${zimbra.buildinfo.version}"
                    regexp="([0-9]+)\.([0-9]+)\.([0-9]+)_([A-Z]+)"
                    select="\4"
-                   casesensitive="false" />
-    <propertyregex property="zimbra.buildinfo.relnum"
-                   input="${zimbra.buildinfo.version}"
-                   regexp="([0-9]+)\.([0-9]+)\.([0-9]+)_([A-Z]+)([0-9]+)(\.|_)?"
-                   select="\5"
-                   casesensitive="false" />
-
-    <propertyregex property="zimbra.buildinfo.buildnum"
-                   input="${zimbra.buildinfo.version}"
-                   regexp="([0-9]+)\.([0-9]+)\.([0-9]+)_([A-Z0-9]+)(\.|_)?([0-9]+)?"
-                   select="\6"
                    casesensitive="false" />
 
     <condition property="zimbra.buildinfo.relnum" value="0">
