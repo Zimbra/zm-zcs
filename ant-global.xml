@@ -5,6 +5,27 @@
     <!-- Java -->
     <property name="javac.target" value="1.7"/>
 
+    <!-- Add "init-ivy" depends to your "resolve" target and the following will
+         automatically download and install ivy if necessary. -->
+    <property name="ivy.jar.dir" location="${user.home}/.ant/lib" />
+    <property name="ivy.install.version" value="2.3.0" />
+    <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy-2.3.0.jar" />
+    <target name="download-ivy" unless="offline">
+        <mkdir dir="${ivy.jar.dir}"/>
+        <!-- download Ivy from web site so that it can be used even without any special installation. 
+             Note, that 'get' task will not try downloading if this file is already downloaded. -->
+        <get src="https://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" 
+             dest="${ivy.jar.file}" usetimestamp="true"/>
+    </target>
+
+    <target name="init-ivy" depends="download-ivy">
+      <!-- If ivy is not downloaded yet, try to load ivy here from ivy home. -->
+        <path id="ivy.lib.path">
+            <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+        </path>
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+    </target>
+
     <!-- Ignore the classpath from the shell running ant.  This avoids dependency
       on the user's environment and suppresses the warning about includeAntRuntime. -->
     <property name="build.sysclasspath" value="ignore"/>
