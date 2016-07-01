@@ -30,6 +30,8 @@
     <path id="all.java.path">
         <pathelement location="${src.java.dir}" />
     </path>
+    <!-- Standard build dependencies path -->
+    <property name="build.deps.dir" location="${user.home}/.zcs-deps"/>
 
     <!-- Standard install paths -->
     <property name="zimbra.home.dir" location="/opt/zimbra" />
@@ -122,7 +124,7 @@
     <!-- Build version -->
     <taskdef resource="net/sf/antcontrib/antlib.xml">
         <classpath>
-            <pathelement location="${common.jars.dir}/ant-contrib-1.0b1.jar"/>
+            <pathelement location="${build.deps.dir}/ant-contrib-1.0b1.jar"/>
         </classpath>
     </taskdef>
     <tstamp/>
@@ -198,6 +200,7 @@
 
     <target name="clean">
         <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
     </target>
 
     <target name="compile" description="Compiles from src/java into build/classes.">
