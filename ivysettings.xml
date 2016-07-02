@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivysettings>
+<settings defaultResolver="chain-resolver" />
+<!--
+<credentials host="http://myarchiva/archiva/" realm="Repository Archiva Managed internal Repository"
+    username="user" passwd="pwd" />
+-->
+<property name="archiva-internal"
+    value="http://zdev-vm007.eng.zimbra.com:8080/repository/internal" />
+<resolvers>
+  <chain name="chain-resolver">
+    <filesystem name="local">
+      <artifact pattern= "${user.home}/.zcs-deps/[organisation]-[revision].[ext]" />
+      <artifact pattern= "${user.home}/.zcs-deps/[organisation].[ext]" />
+    </filesystem>
+    <ibiblio name="archiva" m2compatible="true" root="${archiva-internal}" />
+  </chain>
+</resolvers>
+</ivysettings>
