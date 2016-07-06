@@ -13,7 +13,8 @@
       <artifact pattern= "${user.home}/.zcs-deps/[organisation]-[revision].[ext]" />
       <artifact pattern= "${user.home}/.zcs-deps/[organisation].[ext]" />
     </filesystem>
-    <ibiblio name="archiva" m2compatible="true" root="${archiva-internal}" />
+    <ibiblio name="zimbra-internal" m2compatible="true" usepoms="false" root="${archiva-internal}" />
+    <ibiblio name="maven" m2compatible="true" usepoms="false"/>
   </chain>
 </resolvers>
 </ivysettings>
