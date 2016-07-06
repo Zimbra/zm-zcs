@@ -8,7 +8,7 @@
 <property name="archiva-internal"
     value="http://zdev-vm007.eng.zimbra.com:8080/repository/internal" />
 <resolvers>
-  <chain name="chain-resolver">
+  <chain name="chain-resolver" returnFirst="true">
     <filesystem name="local">
       <artifact pattern= "${user.home}/.zcs-deps/[organisation]-[revision].[ext]" />
       <artifact pattern= "${user.home}/.zcs-deps/[organisation].[ext]" />
