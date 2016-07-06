@@ -1,4 +1,4 @@
-<project name="ant-global">
+<project name="ant-global" xmlns:ivy="antlib:org.apache.ivy.ant">
     <!-- Set properties that can be used in all projects. -->
     <dirname property="zimbra.root.dir" file="${ant.file.ant-global}/../"/>
 
@@ -26,6 +26,12 @@
         <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
     </target>
 
+    <!-- common resolve target that should work to resolve dependencies based on ivy.xml for most projects -->
+    <target name="resolve" depends="init-ivy" description="resolve dependencies">
+      <property name="ivy.settings.file" value="../zm-zcs/ivysettings.xml" />
+      <ivy:resolve />
+      <ivy:cachepath pathid="class.path" />
+    </target>
     <!-- Ignore the classpath from the shell running ant.  This avoids dependency
       on the user's environment and suppresses the warning about includeAntRuntime. -->
     <property name="build.sysclasspath" value="ignore"/>
@@ -224,7 +230,7 @@
         <delete dir="${dist.dir}"/>
     </target>
 
-    <target name="compile" description="Compiles from src/java into build/classes.">
+    <target name="compile" depends="build-init,resolve" description="Compiles from src/java into build/classes.">
         <mkdir dir="${build.classes.dir}" />
         <javac destdir="${build.classes.dir}" debug="true" classpathref="class.path" target="${javac.target}">
             <src refid="all.java.path" />
