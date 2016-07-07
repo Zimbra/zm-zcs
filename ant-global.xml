@@ -115,6 +115,12 @@
     <path id="emma.run.classpath" >
       <pathelement location="${build.classes.dir}" />
     </path>
+	
+	<!-- Classpath for running unit test, it needs classes from build dir -->
+    <path id="test.class.path">
+	   <path refid="class.path"/>
+	   <pathelement location="${build.classes.dir}" />
+    </path>
 
     <!-- customizations -->
     <property name="aux.jars.dir" location="${server.dir}/build/auxjars"/>
@@ -239,14 +245,14 @@
     <target name="test-compile" depends="compile">
         <mkdir dir="${test.classes.dir}"/>
         <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}"
-               debug="true" classpathref="class.path" target="${javac.target}"/>
+               debug="true" classpathref="test.class.path" target="${javac.target}"/>
         <copy todir="${test.classes.dir}">
             <fileset dir="${test.src.dir}" excludes="**/*.java"/>
         </copy>
     </target>
 
     <target name="test" depends="test-compile" description="Run unit tests">
-        <property name="test.path" refid="class.path"/>
+        <property name="test.path" refid="test.class.path"/>
         <delete dir="${test.dir}" quiet="true"/>
         <mkdir dir="${test.dir}/output"/>
         <mkdir dir="${test.dir}/report"/>
@@ -256,7 +262,7 @@
         </move>
         <copy file="${test.src.dir}/log4j-test.properties" tofile="${test.classes.dir}/log4j.properties" failonerror="false"/>
         <junit printsummary="on" showoutput="true" failureproperty="junit.failure" tempdir="${test.dir}" fork="true">
-            <classpath refid="class.path"/>
+            <classpath refid="test.class.path"/>
             <classpath path="${test.classes.dir}"/>
             <assertions><enable/></assertions>
             <formatter type="xml"/>
