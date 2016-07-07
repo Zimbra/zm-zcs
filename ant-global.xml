@@ -236,6 +236,13 @@
         <delete dir="${dist.dir}"/>
     </target>
 
+    <target name="build-init">
+      <mkdir dir="${build.classes.dir}"/>
+      <mkdir dir="${dist.dir}"/>
+      <mkdir dir="${dist.lib.dir}"/>
+      <mkdir dir="${dist.lib.ext.dir}"/>
+    </target>
+
     <target name="compile" depends="build-init,resolve" description="Compiles from src/java into build/classes.">
         <mkdir dir="${build.classes.dir}" />
         <javac destdir="${build.classes.dir}" debug="true" classpathref="class.path" target="${javac.target}">
