@@ -12,6 +12,8 @@
     <filesystem name="local">
       <artifact pattern= "${user.home}/.zcs-deps/[organisation]-[revision].[ext]" />
       <artifact pattern= "${user.home}/.zcs-deps/[organisation].[ext]" />
+      <artifact pattern= "${common.jars.dir}/[organisation]-[revision].[ext]" />
+      <artifact pattern= "${common.jars.dir}/[organisation].[ext]" />
     </filesystem>
     <ibiblio name="zimbra-internal" m2compatible="true" usepoms="false" root="${archiva-internal}" />
     <ibiblio name="maven" m2compatible="true" usepoms="false"/>
