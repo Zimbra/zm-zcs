@@ -241,8 +241,6 @@
     <target name="build-init">
       <mkdir dir="${build.classes.dir}"/>
       <mkdir dir="${dist.dir}"/>
-      <mkdir dir="${dist.lib.dir}"/>
-      <mkdir dir="${dist.lib.ext.dir}"/>
     </target>
 
     <target name="compile" depends="build-init,resolve" description="Compiles from src/java into build/classes.">
