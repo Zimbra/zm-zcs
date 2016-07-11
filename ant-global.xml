@@ -117,7 +117,7 @@
     <path id="emma.run.classpath" >
       <pathelement location="${build.classes.dir}" />
     </path>
-
+	
     <!-- Classpath for running unit test, it needs classes from build dir -->
     <path id="test.class.path">
       <path refid="class.path"/>
@@ -265,10 +265,10 @@
     </target>
 
     <target name="test" depends="test-compile" description="Run unit tests">
-      <property name="test.path" refid="test.class.path"/>
       <if>
         <available file="${test.src.dir}" type="dir"/>
         <then>
+          <property name="test.path" refid="test.class.path"/>
           <delete dir="${test.dir}" quiet="true"/>
           <mkdir dir="${test.dir}/output"/>
           <mkdir dir="${test.dir}/report"/>
