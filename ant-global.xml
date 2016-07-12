@@ -44,6 +44,8 @@
     <property name="jars.dir" location="jars" />
     <property name="build.dir" location="build" />
     <property name="dist.dir" location="build/dist" />
+    <property name="dist.lib.dir" location="${dist.dir}/lib"/>
+    <property name="dist.lib.ext.dir" location="${dist.lib.dir}/ext"/>
     <property name="build.classes.dir" location="${build.dir}/classes" />
     <property name="build.instrumented.dir" location="${build.dir}/classes-inst" />
     <property name="build.coverage.dir" location="${build.dir}/coverage" />
@@ -116,10 +118,11 @@
       <pathelement location="${build.classes.dir}" />
     </path>
 	
-	<!-- Classpath for running unit test, it needs classes from build dir -->
+    <!-- Classpath for running unit test, it needs classes from build dir -->
     <path id="test.class.path">
-	   <path refid="class.path"/>
-	   <pathelement location="${build.classes.dir}" />
+      <path refid="class.path"/>
+      <pathelement location="${build.classes.dir}" />
+      <pathelement location="${test.classes.dir}" />
     </path>
 
     <!-- customizations -->
@@ -235,6 +238,11 @@
         <delete dir="${dist.dir}"/>
     </target>
 
+    <target name="build-init">
+      <mkdir dir="${build.classes.dir}"/>
+      <mkdir dir="${dist.dir}"/>
+    </target>
+
     <target name="compile" depends="build-init,resolve" description="Compiles from src/java into build/classes.">
         <mkdir dir="${build.classes.dir}" />
         <javac destdir="${build.classes.dir}" debug="true" classpathref="class.path" target="${javac.target}">
@@ -243,27 +251,34 @@
     </target>
 
     <target name="test-compile" depends="compile">
-        <mkdir dir="${test.classes.dir}"/>
-        <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}"
-               debug="true" classpathref="test.class.path" target="${javac.target}"/>
-        <copy todir="${test.classes.dir}">
-            <fileset dir="${test.src.dir}" excludes="**/*.java"/>
-        </copy>
+      <if>
+        <available file="${test.src.dir}" type="dir"/>
+        <then>
+          <mkdir dir="${test.classes.dir}"/>
+            <javac destdir="${test.classes.dir}" srcdir="${test.src.dir}" classpathref="test.class.path"
+               debug="true" target="${javac.target}" />
+            <copy todir="${test.classes.dir}">
+              <fileset dir="${test.src.dir}" excludes="**/*.java"/>
+            </copy>
+         </then>
+      </if>
     </target>
 
     <target name="test" depends="test-compile" description="Run unit tests">
-        <property name="test.path" refid="test.class.path"/>
-        <delete dir="${test.dir}" quiet="true"/>
-        <mkdir dir="${test.dir}/output"/>
-        <mkdir dir="${test.dir}/report"/>
-        <mkdir dir="${test.dir}/extensions"/>
-        <move todir="${test.dir}/extensions/com/zimbra/extensions" failonerror="false">
+      <if>
+        <available file="${test.src.dir}" type="dir"/>
+        <then>
+          <property name="test.path" refid="test.class.path"/>
+          <delete dir="${test.dir}" quiet="true"/>
+          <mkdir dir="${test.dir}/output"/>
+          <mkdir dir="${test.dir}/report"/>
+          <mkdir dir="${test.dir}/extensions"/>
+          <move todir="${test.dir}/extensions/com/zimbra/extensions" failonerror="false">
             <fileset dir="${test.classes.dir}/com/zimbra/extensions" />
-        </move>
-        <copy file="${test.src.dir}/log4j-test.properties" tofile="${test.classes.dir}/log4j.properties" failonerror="false"/>
-        <junit printsummary="on" showoutput="true" failureproperty="junit.failure" tempdir="${test.dir}" fork="true">
+          </move>
+          <copy file="${test.src.dir}/log4j-test.properties" tofile="${test.classes.dir}/log4j.properties" failonerror="false"/>
+          <junit printsummary="on" showoutput="true" failureproperty="junit.failure" tempdir="${test.dir}" fork="true">
             <classpath refid="test.class.path"/>
-            <classpath path="${test.classes.dir}"/>
             <assertions><enable/></assertions>
             <formatter type="xml"/>
             <batchtest todir="${test.dir}/output">
@@ -273,17 +288,22 @@
                     <exclude name="**/Abstract*Test.java"/>
                 </fileset>
             </batchtest>
-        </junit>
-        <junitreport todir="${test.dir}/report">
+          </junit>
+          <junitreport todir="${test.dir}/report">
             <fileset dir="${test.dir}/output"/>
             <report todir="${test.dir}/report"/>
-        </junitreport>
-        <echo>Test Report: ${test.dir}/report/index.html</echo>
-        <fail if="junit.failure" message="Unit test failed"/>
+          </junitreport>
+          <echo>Test Report: ${test.dir}/report/index.html</echo>
+          <fail if="junit.failure" message="Unit test failed"/>
+        </then>
+        <else>
+          <echo>${test.src.dir} not found. Will not run unit tests</echo>
+        </else>
+      </if>
     </target>
 
     <target name="test-hudson" depends="test-compile" description="Run hudson unit tests">
-        <property name="test.path" refid="class.path"/>
+        <property name="test.path" refid="test.class.path"/>
         <delete dir="${test.dir}" quiet="true"/>
         <mkdir dir="${test.dir}/output"/>
         <mkdir dir="${test.dir}/report"/>
@@ -293,8 +313,7 @@
         </move>
         <copy file="${test.src.dir}/log4j-test.properties" tofile="${test.classes.dir}/log4j.properties" failonerror="false"/>
         <junit printsummary="on" showoutput="true" failureproperty="junit.failure" tempdir="${test.dir}">
-            <classpath refid="class.path"/>
-            <classpath path="${test.classes.dir}"/>
+            <classpath refid="test.class.path"/>
             <assertions><enable/></assertions>
             <formatter type="xml"/>
             <batchtest todir="${test.dir}/output">
