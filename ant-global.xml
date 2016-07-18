@@ -346,8 +346,7 @@
         </move>
         <copy file="${test.src.dir}/log4j-test.properties" tofile="${test.classes.dir}/log4j.properties" failonerror="false"/>
         <junit fork="yes" printsummary="on" showoutput="true" failureproperty="junit.failure" tempdir="${single.test.dir}">
-            <classpath refid="class.path"/>
-            <classpath path="${test.classes.dir}"/>
+            <classpath refid="test.class.path"/>
             <assertions><enable/></assertions>
             <formatter type="xml"/>
             <test name="${test.name}" todir="${single.test.dir}/output" />
