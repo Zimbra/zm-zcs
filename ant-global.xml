@@ -512,7 +512,6 @@
 	        </jar>
             </then>
             <else>
-              <echo>includes: ${includes}, excludes: ${excludes}</echo>
 	        <jar destfile="${build.dir}/${jar.file}" basedir="${jar.build.dir}" includes="${includes}" excludes="${excludes}">
 	            <manifest>
 	                <attribute name="Main-Class" value="com.zimbra.buildinfo.Version" />
