@@ -478,11 +478,27 @@
             <property name="jar.build.dir" value="${build.classes.dir}"/>
           </then>
         </if>
+        <if>
+          <not>
+            <isset property="excludes"/>
+          </not>
+          <then>
+            <property name="excludes" value=""/>
+          </then>
+        </if>
+        <if>
+          <not>
+            <isset property="includes"/>
+          </not>
+          <then>
+            <property name="includes" value=""/>
+          </then>
+        </if>
         <echo>building jar from ${jar.build.dir}</echo>
         <if>
             <isset property="zimbra.extension.class"/>
             <then>
-	        <jar destfile="${build.dir}/${jar.file}" basedir="${jar.build.dir}">
+	        <jar destfile="${build.dir}/${jar.file}" basedir="${jar.build.dir}" includes="${includes}" excludes="${excludes}">
 	            <manifest>
 	                <attribute name="Main-Class" value="com.zimbra.buildinfo.Version" />
 	                <attribute name="Implementation-Vendor" value="Zimbra Software, LLC"/>
@@ -496,7 +512,7 @@
 	        </jar>
             </then>
             <else>
-	        <jar destfile="${build.dir}/${jar.file}" basedir="${jar.build.dir}">
+	        <jar destfile="${build.dir}/${jar.file}" basedir="${jar.build.dir}" includes="${includes}" excludes="${excludes}">
 	            <manifest>
 	                <attribute name="Main-Class" value="com.zimbra.buildinfo.Version" />
 	                <attribute name="Implementation-Vendor" value="Zimbra Software, LLC"/>
