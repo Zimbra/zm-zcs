@@ -233,6 +233,22 @@
     <property name="zimbra.buildinfo.all"
               value="Version: ${zimbra.buildinfo.version}; Type: ${zimbra.buildinfo.type}; Release: ${zimbra.buildinfo.release}; Built: ${zimbra.buildinfo.date}; Host: ${zimbra.buildinfo.host}"/>
 
+    <target name="set-dev-version">
+      <if>
+        <not>
+          <isset property="jar.file"/>
+        </not>
+        <then>
+          <exec executable="git" outputproperty="git.commithash">
+            <arg value="log"/>
+            <arg value="-1"/>
+            <arg value="--pretty=format:%h"/>
+          </exec>
+          <property name="jar.file" value="${ant.project.name}-${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microversion}.${git.commithash}.jar"/>
+        </then>
+      </if>
+    </target>
+
     <target name="clean">
         <delete dir="${build.dir}"/>
         <delete dir="${dist.dir}"/>
@@ -467,7 +483,7 @@
         <javac destdir="${build.classes.dir}" debug="true" target="${javac.target}" srcdir="${build.dir}/buildinfo" />
     </target>
 
-    <target name="zimbra-jar" depends="generate-jar-version" description="Builds a standard jar file that prints its version info when executed.  Optionally sets the Zimbra-Extension-Class attribute in the manifest if the zimbra.extension.class property is set.">
+    <target name="zimbra-jar" depends="generate-jar-version,set-dev-version" description="Builds a standard jar file that prints its version info when executed.  Optionally sets the Zimbra-Extension-Class attribute in the manifest if the zimbra.extension.class property is set.">
         <fail unless="jar.file"/>
         <fail unless="implementation.title"/>
         <if>
