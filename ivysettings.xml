@@ -7,16 +7,23 @@
 -->
 <property name="archiva-internal"
     value="http://zdev-vm007.eng.zimbra.com:8080/repository/internal" />
-<resolvers>
-  <chain name="chain-resolver" returnFirst="true">
-    <filesystem name="local">
-      <artifact pattern= "${user.home}/.zcs-deps/[organisation]-[revision].[ext]" />
-      <artifact pattern= "${user.home}/.zcs-deps/[organisation].[ext]" />
-      <artifact pattern= "${common.jars.dir}/[organisation]-[revision].[ext]" />
-      <artifact pattern= "${common.jars.dir}/[organisation].[ext]" />
+  <resolvers>
+    <chain name="chain-resolver" returnFirst="true">
+      <filesystem name="local">
+        <!-- zm*** jar files that have not been published to internal Archiva repo or public maven repo live in ~/.zcs-deps/zimbra/ -->
+        <artifact pattern= "${user.home}/.zcs-deps/[organisation]/[module]/[module]-[revision].[ext]" />
+        <!-- TODO: the next 3 patterns should be removed once all zm-*** repos produce versioned artifacts and publish them to local repo -->
+        <artifact pattern= "${user.home}/.zcs-deps/[organisation]-[revision].[ext]" />
+        <artifact pattern= "${user.home}/.zcs-deps/[organisation].[ext]" />
+        <artifact pattern= "${common.jars.dir}/[organisation]-[revision].[ext]" />
+        <artifact pattern= "${common.jars.dir}/[organisation].[ext]" />
+      </filesystem>
+      <ibiblio name="zimbra-internal" m2compatible="true" usepoms="false" root="${archiva-internal}" />
+      <ibiblio name="maven" m2compatible="true" usepoms="false"/>
+    </chain>
+    <!-- 'build' resolver is not part of the chain and is used only to find artifacts to publish in local repo -->
+    <filesystem name="build">
+      <artifact pattern="${build.dir}/[module]-[revision].[ext]" />
     </filesystem>
-    <ibiblio name="zimbra-internal" m2compatible="true" usepoms="false" root="${archiva-internal}" />
-    <ibiblio name="maven" m2compatible="true" usepoms="false"/>
-  </chain>
-</resolvers>
+  </resolvers>
 </ivysettings>
