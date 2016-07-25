@@ -43,7 +43,8 @@
     <property name="src.zimlet.dir" location="src/zimlet" />
     <property name="jars.dir" location="jars" />
     <property name="build.dir" location="build" />
-    <property name="dist.dir" location="build/dist" />
+	<property name="build.tmp.dir" location="${build.dir}/tmp" />
+    <property name="dist.dir" location="${build.dir}/dist" />
     <property name="dist.lib.dir" location="${dist.dir}/lib"/>
     <property name="dist.lib.ext.dir" location="${dist.lib.dir}/ext"/>
     <property name="build.classes.dir" location="${build.dir}/classes" />
