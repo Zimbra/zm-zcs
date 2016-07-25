@@ -24,11 +24,11 @@
             <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
         </path>
         <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+    	<ivy:settings id="dev.settings" file="../zm-zcs/ivysettings.xml"/>
     </target>
     <!-- common resolve target that should work to resolve dependencies based on ivy.xml for most projects -->
     <target name="resolve" depends="init-ivy" description="resolve dependencies">
-      <property name="ivy.settings.file" value="../zm-zcs/ivysettings.xml" />
-      <ivy:resolve />
+      <ivy:resolve settingsRef="dev.settings" />
       <ivy:cachepath pathid="class.path" />
     </target>
     <!-- Ignore the classpath from the shell running ant.  This avoids dependency
@@ -43,7 +43,8 @@
     <property name="src.zimlet.dir" location="src/zimlet" />
     <property name="jars.dir" location="jars" />
     <property name="build.dir" location="build" />
-    <property name="dist.dir" location="build/dist" />
+	<property name="build.tmp.dir" location="${build.dir}/tmp" />
+    <property name="dist.dir" location="${build.dir}/dist" />
     <property name="dist.lib.dir" location="${dist.dir}/lib"/>
     <property name="dist.lib.ext.dir" location="${dist.lib.dir}/ext"/>
     <property name="build.classes.dir" location="${build.dir}/classes" />
@@ -232,6 +233,23 @@
     </condition>
     <property name="zimbra.buildinfo.all"
               value="Version: ${zimbra.buildinfo.version}; Type: ${zimbra.buildinfo.type}; Release: ${zimbra.buildinfo.release}; Built: ${zimbra.buildinfo.date}; Host: ${zimbra.buildinfo.host}"/>
+
+    <target name="set-dev-version">
+      <if>
+        <not>
+          <isset property="jar.file"/>
+        </not>
+        <then>
+          <exec executable="git" outputproperty="git.commithash">
+            <arg value="log"/>
+            <arg value="-1"/>
+            <arg value="--pretty=format:%h"/>
+          </exec>
+          <property name="dev.version" value="${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microversion}.${git.commithash}"/>
+          <property name="jar.file" value="${ant.project.name}-${dev.version}.jar"/>
+        </then>
+      </if>
+    </target>
 
     <target name="clean">
         <delete dir="${build.dir}"/>
@@ -467,8 +485,10 @@
         <javac destdir="${build.classes.dir}" debug="true" target="${javac.target}" srcdir="${build.dir}/buildinfo" />
     </target>
 
-    <target name="zimbra-jar" depends="generate-jar-version" description="Builds a standard jar file that prints its version info when executed.  Optionally sets the Zimbra-Extension-Class attribute in the manifest if the zimbra.extension.class property is set.">
-        <fail unless="jar.file"/>
+    <target name="zimbra-jar" depends="generate-jar-version,set-dev-version" description="Builds a standard jar file that prints its version info when executed.  Optionally sets the Zimbra-Extension-Class attribute in the manifest if the zimbra.extension.class property is set.">
+        <condition property="jar.file" value="${ant.project.name}-${dev.version}.jar">
+          <not><isset property="jar.file"/></not>
+        </condition>
         <fail unless="implementation.title"/>
         <if>
           <not>
@@ -526,6 +546,11 @@
             </else>
         </if>
     </target>
+
+    <target name="publish-local" depends="set-dev-version,init-ivy">
+      <ivy:install settingsRef="dev.settings" from="build" to="local" overwrite="true" organisation="zimbra" module="${ant.project.name}" revision="${dev.version}"/>
+    </target>
+
     <target name="zmlocalconfig">
       <echo>Running localconfig with with argument: ${localconfig-args}</echo>
       <java classname="com.zimbra.cs.localconfig.LocalConfigCLI" fork="true" classpathref="class.path" failonerror="true">
