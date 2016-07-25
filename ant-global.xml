@@ -126,9 +126,6 @@
       <pathelement location="${test.classes.dir}" />
     </path>
 
-    <!-- customizations -->
-    <property name="aux.jars.dir" location="${server.dir}/build/auxjars"/>
-    
     <!-- Platform -->
     <condition property="native.os" value="MacOSX">
         <os name="Mac OS X"/>
