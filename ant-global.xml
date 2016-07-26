@@ -5,9 +5,13 @@
     <!-- Java -->
     <property name="javac.target" value="1.7"/>
 
+    <condition property="dev.home" value="${user.home}">
+        <not><isset property="dev.home"/></not>
+    </condition>
+
     <!-- Add "init-ivy" depends to your "resolve" target and the following will
          automatically download and install ivy if necessary. -->
-    <property name="ivy.jar.dir" location="${user.home}/.ant/lib" />
+    <property name="ivy.jar.dir" location="${dev.home}/.ant/lib" />
     <property name="ivy.install.version" value="2.3.0" />
     <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy-2.3.0.jar" />
     <target name="download-ivy" unless="offline">
@@ -60,7 +64,7 @@
         <pathelement location="${src.java.dir}" />
     </path>
     <!-- Standard build dependencies path -->
-    <property name="build.deps.dir" location="${user.home}/.zcs-deps"/>
+    <property name="build.deps.dir" location="${dev.home}/.zcs-deps"/>
 
     <!-- Standard install paths -->
     <property name="zimbra.home.dir" location="/opt/zimbra" />
