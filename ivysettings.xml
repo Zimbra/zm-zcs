@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivysettings>
 <settings defaultResolver="chain-resolver" />
+  <caches defaultCacheDir="${dev.home}/.ivy2/cache"/>
 <!--
 <credentials host="http://myarchiva/archiva/" realm="Repository Archiva Managed internal Repository"
     username="user" passwd="pwd" />
@@ -11,10 +12,10 @@
     <chain name="chain-resolver" returnFirst="true">
       <filesystem name="local">
         <!-- zm*** jar files that have not been published to internal Archiva repo or public maven repo live in ~/.zcs-deps/zimbra/ -->
-        <artifact pattern= "${user.home}/.zcs-deps/[organisation]/[module]/[module]-[revision].[ext]" />
+        <artifact pattern= "${dev.home}/.zcs-deps/[organisation]/[module]/[module]-[revision].[ext]" />
         <!-- TODO: the next 3 patterns should be removed once all zm-*** repos produce versioned artifacts and publish them to local repo -->
-        <artifact pattern= "${user.home}/.zcs-deps/[organisation]-[revision].[ext]" />
-        <artifact pattern= "${user.home}/.zcs-deps/[organisation].[ext]" />
+        <artifact pattern= "${dev.home}/.zcs-deps/[organisation]-[revision].[ext]" />
+        <artifact pattern= "${dev.home}/.zcs-deps/[organisation].[ext]" />
         <artifact pattern= "${common.jars.dir}/[organisation]-[revision].[ext]" />
         <artifact pattern= "${common.jars.dir}/[organisation].[ext]" />
       </filesystem>
