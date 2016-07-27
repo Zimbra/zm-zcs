@@ -4,10 +4,9 @@
 
     <!-- Java -->
     <property name="javac.target" value="1.7"/>
+    <!-- base path for ivy cache, local repository, ant libraries, etc -->
 
-    <condition property="dev.home" value="${user.home}">
-        <not><isset property="dev.home"/></not>
-    </condition>
+    <property name="dev.home"  value="${user.home}"/>
 
     <!-- Add "init-ivy" depends to your "resolve" target and the following will
          automatically download and install ivy if necessary. -->
