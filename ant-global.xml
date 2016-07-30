@@ -71,6 +71,7 @@
     <property name="jetty.webapps.dir" location="${jetty.home.dir}/webapps"/>
     <property name="common.jars.dir" location="${zimbra.home.dir}/lib/jars"/>
     <property name="jetty.endorsed.jars.dir" location="${jetty.home.dir}/common/endorsed"/>
+    <property name="jetty.common.jars.dir" location="${jetty.home.dir}/common/lib"/>
     <property name="ext-common.jars.dir" location="${zimbra.home.dir}/lib/ext-common"/>
     <property name="common.sourcejars.dir" location="${zimbra.home.dir}/jars-src"/>
 
