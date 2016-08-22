@@ -1,12 +1,12 @@
 <project name="ant-global" xmlns:ivy="antlib:org.apache.ivy.ant">
     <!-- Set properties that can be used in all projects. -->
     <dirname property="zimbra.root.dir" file="${ant.file.ant-global}/../"/>
-
+     <import file="dependencies.xml"/>
     <!-- Java -->
     <property name="javac.target" value="1.7"/>
     <!-- base path for ivy cache, local repository, ant libraries, etc -->
 
-    <property name="dev.home"  value="${user.home}"/>
+    <property name="dev.home"  value="/home/zimbra/"/>
 
     <!-- Add "init-ivy" depends to your "resolve" target and the following will
          automatically download and install ivy if necessary. -->
@@ -560,5 +560,9 @@
       <java classname="com.zimbra.cs.localconfig.LocalConfigCLI" fork="true" classpathref="class.path" failonerror="true">
         <arg line="${localconfig-args}"/>
       </java>
+    </target>
+    
+    <target name="dist.dependencies">
+         <antcall target="depend.${ant.project.name}"/>
     </target>
 </project>
