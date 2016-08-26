@@ -22,10 +22,6 @@
       <ibiblio name="zimbra-internal" m2compatible="true" usepoms="false" root="${archiva-internal}" />
       <ibiblio name="maven" m2compatible="true" usepoms="false"/>
     </chain>
-    <!-- 'build' resolver is not part of the chain and is used only to find artifacts to publish in local repo -->
-    <filesystem name="build">
-      <artifact pattern="${build.dir}/[module]-[revision].[ext]" />
-    </filesystem>
     <!-- 'build-tmp' resolver is not part of the chain and is used only for packaging war files -->
     <filesystem name="build-tmp">
       <artifact pattern="${build.tmp.dir}/[module]-[revision].[ext]" />
