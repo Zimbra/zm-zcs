@@ -13,6 +13,11 @@
     <property name="ivy.jar.dir" location="${dev.home}/.ant/lib" />
     <property name="ivy.install.version" value="2.3.0" />
     <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy-2.3.0.jar" />
+    <property name="ivy.status" value="integration" />
+    <property name="ivy.organisation" value="zimbra" />
+    <property name="ivy.publish.src.artifacts.pattern" value="build/[artifact]-[revision].[ext]" />
+    <property name="ivy.deliver.ivy.pattern" value="${dev.home}/.zcs-deps/[organisation]/[module]/[module]-[revision].[ext]" />
+    <property name="ivy.module" value="${ant.project.name}" />
     <target name="download-ivy" unless="offline">
         <mkdir dir="${ivy.jar.dir}"/>
         <!-- download Ivy from web site so that it can be used even without any special installation. 
@@ -551,8 +556,8 @@
         </if>
     </target>
 
-    <target name="publish-local" depends="set-dev-version,init-ivy">
-      <ivy:install settingsRef="dev.settings" from="build" to="local" overwrite="true" organisation="zimbra" module="${ant.project.name}" revision="${dev.version}"/>
+    <target name="publish-local" depends="jar,set-dev-version,init-ivy">
+      <ivy:publish settingsRef="dev.settings" pubrevision="${dev.version}" resolver="local" overwrite="true" />
     </target>
 
     <target name="zmlocalconfig">
