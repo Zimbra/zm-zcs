@@ -7,7 +7,7 @@
     username="user" passwd="pwd" />
 -->
 <property name="archiva-internal"
-    value="http://zdev-vm007.eng.zimbra.com:8080/repository/internal" />
+    value="http://zdev-vm007.eng.zimbra.com:8082/repository/internal" />
   <resolvers>
     <chain name="chain-resolver" returnFirst="true">
       <filesystem name="local">
