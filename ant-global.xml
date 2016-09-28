@@ -556,7 +556,15 @@
         </if>
     </target>
 
-    <target name="publish-local" depends="jar,set-dev-version,init-ivy">
+	<target name="clean-cache" description="Delete ivy cache">
+		<delete dir="${dev.home}/.ivy2/cache/zimbra/${ant.project.name}"/>
+		<delete dir="${dev.home}/.zcs-deps/zimbra/${ant.project.name}"/>
+		<delete>
+		    <fileset dir="${dev.home}/.ivy2/cache" includes="*${ant.project.name}*"/>
+		</delete>
+	</target>
+
+    <target name="publish-local" depends="clean-cache,jar,set-dev-version,init-ivy">
       <ivy:publish settingsRef="dev.settings" pubrevision="${dev.version}" resolver="local" overwrite="true" />
     </target>
 
