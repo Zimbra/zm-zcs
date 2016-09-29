@@ -272,7 +272,7 @@
 
     <target name="compile" depends="build-init,resolve" description="Compiles from src/java into build/classes.">
         <mkdir dir="${build.classes.dir}" />
-        <javac destdir="${build.classes.dir}" debug="true" classpathref="class.path" target="${javac.target}">
+        <javac destdir="${build.classes.dir}" debug="true" classpathref="class.path" target="${javac.target}" encoding="utf-8">
             <src refid="all.java.path" />
         </javac>
     </target>
@@ -283,7 +283,7 @@
         <then>
           <mkdir dir="${test.classes.dir}"/>
             <javac destdir="${test.classes.dir}" srcdir="${test.src.dir}" classpathref="test.class.path"
-               debug="true" target="${javac.target}" />
+               debug="true" target="${javac.target}" encoding="utf-8" />
             <copy todir="${test.classes.dir}">
               <fileset dir="${test.src.dir}" excludes="**/*.java"/>
             </copy>
