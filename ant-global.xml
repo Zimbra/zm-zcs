@@ -32,7 +32,7 @@
             <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
         </path>
         <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
-    	<ivy:settings id="dev.settings" file="../zm-zcs/ivysettings.xml"/>
+        <ivy:settings id="dev.settings" file="../zm-zcs/ivysettings.xml"/>
     </target>
     <!-- common resolve target that should work to resolve dependencies based on ivy.xml for most projects -->
     <target name="resolve" depends="init-ivy" description="resolve dependencies">
@@ -130,7 +130,7 @@
     <path id="emma.run.classpath" >
       <pathelement location="${build.classes.dir}" />
     </path>
-	
+
     <!-- Classpath for running unit test, it needs classes from build dir -->
     <path id="test.class.path">
       <path refid="class.path"/>
@@ -422,8 +422,8 @@
             <include name="**/*Test.java"/>
             <exclude name="**/*ITest.java"/>
             <exclude name="**/Abstract*Test.java"/>
-	    <exclude name="**/RemoteMailboxContactOpsTest.java"/>
-	    <exclude name="**/yc/**/*.java"/>
+            <exclude name="**/RemoteMailboxContactOpsTest.java"/>
+            <exclude name="**/yc/**/*.java"/>
           </fileset>
         </batchtest>
       </junit>
@@ -442,7 +442,6 @@
       <echo>Test Report: ${test.dir}/report/index.html</echo> 
       <fail if="junit.failure" message="Unit test failed"/>
     </target>
-
 
     <target name="integration-test" depends="test-compile" description="Run integration tests">
         <property name="test.path" refid="class.path"/>
@@ -527,42 +526,42 @@
         <if>
             <isset property="zimbra.extension.class"/>
             <then>
-	        <jar destfile="${build.dir}/${jar.file}" basedir="${jar.build.dir}" includes="${includes}" excludes="${excludes}">
-	            <manifest>
-	                <attribute name="Main-Class" value="com.zimbra.buildinfo.Version" />
-	                <attribute name="Implementation-Vendor" value="Zimbra Software, LLC"/>
-	                <attribute name="Implementation-Title" value="${implementation.title}"/>
-	                <attribute name="Implementation-Version" value="${zimbra.buildinfo.version}"/>
-	                <attribute name="Specification-Vendor" value="Zimbra Software, LLC"/>
-	                <attribute name="Specification-Title" value="Zimbra Collaboration Suite"/>
-	                <attribute name="Specification-Version" value="${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microversion}"/>
-	                <attribute name="Zimbra-Extension-Class" value="${zimbra.extension.class}"/>
-	            </manifest>
-	        </jar>
+            <jar destfile="${build.dir}/${jar.file}" basedir="${jar.build.dir}" includes="${includes}" excludes="${excludes}">
+                <manifest>
+                    <attribute name="Main-Class" value="com.zimbra.buildinfo.Version" />
+                    <attribute name="Implementation-Vendor" value="Zimbra Software, LLC"/>
+                    <attribute name="Implementation-Title" value="${implementation.title}"/>
+                    <attribute name="Implementation-Version" value="${zimbra.buildinfo.version}"/>
+                    <attribute name="Specification-Vendor" value="Zimbra Software, LLC"/>
+                    <attribute name="Specification-Title" value="Zimbra Collaboration Suite"/>
+                    <attribute name="Specification-Version" value="${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microversion}"/>
+                    <attribute name="Zimbra-Extension-Class" value="${zimbra.extension.class}"/>
+                </manifest>
+            </jar>
             </then>
             <else>
-	        <jar destfile="${build.dir}/${jar.file}" basedir="${jar.build.dir}" includes="${includes}" excludes="${excludes}">
-	            <manifest>
-	                <attribute name="Main-Class" value="com.zimbra.buildinfo.Version" />
-	                <attribute name="Implementation-Vendor" value="Zimbra Software, LLC"/>
-	                <attribute name="Implementation-Title" value="${implementation.title}"/>
-	                <attribute name="Implementation-Version" value="${zimbra.buildinfo.version}"/>
-	                <attribute name="Specification-Vendor" value="Zimbra Software, LLC"/>
-	                <attribute name="Specification-Title" value="Zimbra Collaboration Suite"/>
-	                <attribute name="Specification-Version" value="${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microversion}"/>
-	            </manifest>
-	        </jar>
+            <jar destfile="${build.dir}/${jar.file}" basedir="${jar.build.dir}" includes="${includes}" excludes="${excludes}">
+                <manifest>
+                    <attribute name="Main-Class" value="com.zimbra.buildinfo.Version" />
+                    <attribute name="Implementation-Vendor" value="Zimbra Software, LLC"/>
+                    <attribute name="Implementation-Title" value="${implementation.title}"/>
+                    <attribute name="Implementation-Version" value="${zimbra.buildinfo.version}"/>
+                    <attribute name="Specification-Vendor" value="Zimbra Software, LLC"/>
+                    <attribute name="Specification-Title" value="Zimbra Collaboration Suite"/>
+                    <attribute name="Specification-Version" value="${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microversion}"/>
+                </manifest>
+            </jar>
             </else>
         </if>
     </target>
 
-	<target name="clean-cache" description="Delete ivy cache">
-		<delete dir="${dev.home}/.ivy2/cache/zimbra/${ant.project.name}"/>
-		<delete dir="${dev.home}/.zcs-deps/zimbra/${ant.project.name}"/>
-		<delete>
-		    <fileset dir="${dev.home}/.ivy2/cache" includes="*${ant.project.name}*"/>
-		</delete>
-	</target>
+    <target name="clean-cache" description="Delete ivy cache">
+        <delete dir="${dev.home}/.ivy2/cache/zimbra/${ant.project.name}"/>
+        <delete dir="${dev.home}/.zcs-deps/zimbra/${ant.project.name}"/>
+        <delete>
+            <fileset dir="${dev.home}/.ivy2/cache" includes="*${ant.project.name}*"/>
+        </delete>
+    </target>
 
     <target name="publish-local" depends="clean-cache,jar,set-dev-version,init-ivy">
       <ivy:publish settingsRef="dev.settings" pubrevision="${dev.version}" resolver="local" overwrite="true" />
