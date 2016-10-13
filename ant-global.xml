@@ -252,7 +252,7 @@
           <exec executable="git" outputproperty="git.commithash">
             <arg value="log"/>
             <arg value="-1"/>
-            <arg value="--pretty=format:%h"/>
+            <arg value="--pretty=format:%at"/>
           </exec>
           <property name="dev.version" value="${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microversion}.${git.commithash}"/>
           <property name="jar.file" value="${ant.project.name}-${dev.version}.jar"/>
@@ -576,5 +576,21 @@
     
     <target name="dist.dependencies">
          <antcall target="depend.${ant.project.name}"/>
+    </target>
+
+    <target name="publish-foss-local">
+      <ant dir="${native.dir}" target="publish-local" inheritAll="false"/>
+      <ant dir="${common.dir}" target="publish-local" inheritAll="false"/>
+      <ant dir="${soap.dir}" target="publish-local" inheritAll="false"/>
+      <ant dir="${client.dir}" target="publish-local" inheritAll="false"/>
+      <ant dir="${server.dir}" target="publish-local" inheritAll="false"/>
+    </target>
+
+    <target name="deploy-foss">
+      <ant dir="${native.dir}" target="deploy" inheritAll="false"/>
+      <ant dir="${common.dir}" target="deploy" inheritAll="false"/>
+      <ant dir="${soap.dir}" target="deploy" inheritAll="false"/>
+      <ant dir="${client.dir}" target="deploy" inheritAll="false"/>
+      <ant dir="${server.dir}" target="deploy" inheritAll="false"/>
     </target>
 </project>
