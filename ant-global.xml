@@ -249,12 +249,12 @@
           <isset property="jar.file"/>
         </not>
         <then>
-          <exec executable="git" outputproperty="git.commithash">
+          <exec executable="git" outputproperty="git.timestamp">
             <arg value="log"/>
             <arg value="-1"/>
             <arg value="--pretty=format:%at"/>
           </exec>
-          <property name="dev.version" value="${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microversion}.${git.commithash}"/>
+          <property name="dev.version" value="${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microversion}.${git.timestamp}"/>
           <property name="jar.file" value="${ant.project.name}-${dev.version}.jar"/>
         </then>
       </if>
