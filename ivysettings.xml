@@ -26,5 +26,8 @@
     <filesystem name="build-tmp">
       <artifact pattern="${build.tmp.dir}/[module]-[revision].[ext]" />
     </filesystem>
+    <filesystem name="build-dist">
+      <artifact pattern="${dist.dir}/[module]-[revision].[ext]" />
+    </filesystem>
   </resolvers>
 </ivysettings>
