@@ -197,7 +197,7 @@
     </loadfile>
 
     <property name="zimbra.buildinfo.version"
-              value="${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microtag}_0.${user.name}"
+              value="${zimbra.buildinfo.majorversion}.${zimbra.buildinfo.minorversion}.${zimbra.buildinfo.microtag}_${zimbra.buildinfo.buildnum}.${user.name}"
               />
 
     <propertyregex property="zimbra.buildinfo.majorversion"
