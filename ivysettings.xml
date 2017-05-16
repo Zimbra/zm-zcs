@@ -15,6 +15,7 @@
         <artifact pattern="https://files.zimbra.com/repository/[module]/[artifact].[ext]" />
         <artifact pattern="https://files.zimbra.com/repository/[organisation]/[module]/[module]-[revision].[ext]" />
       </url>
+      <ibiblio name="maven-redhat" root="https://maven.repository.redhat.com/ga/" pattern="[organisation]/[module]/[revision]/[module]-[revision].[ext]"/>
     </chain>
     <!-- 'build-tmp' resolver is not part of the chain and is used only for packaging war files -->
     <filesystem name="build-tmp">
@@ -24,4 +25,7 @@
       <artifact pattern="${dist.dir}/[module]-[revision].[ext]" />
     </filesystem>
   </resolvers>
+  <modules>
+    <module organisation="xerces" resolver="maven-redhat"/>
+  </modules>
 </ivysettings>
