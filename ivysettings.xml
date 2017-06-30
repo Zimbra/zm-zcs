@@ -17,6 +17,16 @@
       </url>
       <ibiblio name="maven-redhat" root="https://maven.repository.redhat.com/ga/" pattern="[organisation]/[module]/[revision]/[module]-[revision].[ext]"/>
     </chain>
+    <chain name="chain-resolver-zip" returnFirst="true">
+      <filesystem name="local">
+        <!-- ivy:install with zip artifacts was failing some times so had to add this line to fix it -->
+        <!-- http://grokbase.com/t/ant/ivy-user/086ct4mr6h/newbie-cant-resolve-zip-files -->
+        <ivy pattern= "${dev.home}/.zcs-deps/[organisation]/[module]/[module]-[revision].xml" />
+        <artifact pattern= "${dev.home}/.zcs-deps/[organisation]/[module]/[module]-[revision].[ext]" />
+        <artifact pattern= "${dev.home}/.zcs-deps/[organisation]-[revision].[ext]" />
+        <artifact pattern= "${dev.home}/.zcs-deps/[organisation].[ext]" />
+      </filesystem>
+    </chain>
     <!-- 'build-tmp' resolver is not part of the chain and is used only for packaging war files -->
     <filesystem name="build-tmp">
       <artifact pattern="${build.tmp.dir}/[module]-[revision].[ext]" />
