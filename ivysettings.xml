@@ -5,6 +5,9 @@
   <resolvers>
     <chain name="chain-resolver" returnFirst="true">
       <filesystem name="local">
+        <!-- ivy:install with zip artifacts was failing some times so had to add this line to fix it -->
+        <!-- http://grokbase.com/t/ant/ivy-user/086ct4mr6h/newbie-cant-resolve-zip-files -->
+        <ivy pattern= "${dev.home}/.zcs-deps/[organisation]/[module]/ivy-[revision].xml" />
         <artifact pattern= "${dev.home}/.zcs-deps/[organisation]/[module]/[module]-[revision].[ext]" />
         <artifact pattern= "${dev.home}/.zcs-deps/[organisation]-[revision].[ext]" />
         <artifact pattern= "${dev.home}/.zcs-deps/[organisation].[ext]" />

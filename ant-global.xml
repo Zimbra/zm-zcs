@@ -564,6 +564,39 @@
         </if>
     </target>
 
+    <target name="zimbra-zip" depends="set-dev-version" description="Builds zip file from build directory">
+      <condition property="zip.file" value="${ant.project.name}-${dev.version}.zip">
+        <not><isset property="zip.file"/></not>
+      </condition>
+
+      <if>
+        <not>
+          <isset property="zip.build.dir"/>
+        </not>
+        <then>
+          <property name="zip.build.dir" value="${build.dir}"/>
+        </then>
+      </if>
+      <if>
+        <not>
+          <isset property="excludes"/>
+        </not>
+        <then>
+          <property name="excludes" value="${zip.file}"/>
+        </then>
+      </if>
+      <if>
+        <not>
+          <isset property="includes"/>
+        </not>
+        <then>
+          <property name="includes" value=""/>
+        </then>
+      </if>
+
+      <zip destfile="${build.dir}/${zip.file}" update="true" basedir="${zip.build.dir}" includes="${includes}" excludes="${excludes}" />
+    </target>
+
     <target name="clean-cache" description="Delete ivy cache">
         <delete dir="${dev.home}/.ivy2/cache/zimbra/${ant.project.name}"/>
         <delete dir="${dev.home}/.zcs-deps/zimbra/${ant.project.name}"/>
