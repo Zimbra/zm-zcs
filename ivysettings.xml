@@ -16,6 +16,7 @@
         <artifact pattern="https://files.zimbra.com/repository/[organisation]/[module]/[module]-[revision].[ext]" />
       </url>
       <ibiblio name="maven-redhat" root="https://maven.repository.redhat.com/ga/" pattern="[organisation]/[module]/[revision]/[module]-[revision].[ext]"/>
+      <ibiblio name="alfresco" root="https://artifacts.alfresco.com/nexus/content/groups/public/" m2compatible="true"/>
     </chain>
     <chain name="chain-resolver-zip" returnFirst="true">
       <filesystem name="local">
