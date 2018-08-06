@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivysettings>
+  <property name="httpclient.version" value="4.5.6"/>
 <settings defaultResolver="chain-resolver" />
   <caches defaultCacheDir="${dev.home}/.ivy2/cache"/>
   <resolvers>
