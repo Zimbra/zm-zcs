@@ -2,7 +2,7 @@
     <!-- Set properties that can be used in all projects. -->
     <dirname property="zimbra.root.dir" file="${ant.file.ant-global}/../"/>
     <!-- Java -->
-    <property name="javac.target" value="1.8"/>
+    <property name="javac.target" value="13"/>
     <!-- base path for ivy cache, local repository, ant libraries, etc -->
 
     <property name="dev.home"  value="${user.home}"/>
