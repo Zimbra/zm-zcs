@@ -286,7 +286,7 @@
         </javac>
     </target>
 
-    <target name="test-compile" depends="compile">
+    <target name="test-compile" unless="skipTests" depends="compile">
       <if>
         <available file="${test.src.dir}" type="dir"/>
         <then>
@@ -300,7 +300,7 @@
       </if>
     </target>
 
-    <target name="test" depends="test-compile" description="Run unit tests">
+    <target name="test" unless="skipTests" depends="test-compile" description="Run unit tests">
       <if>
         <available file="${test.src.dir}" type="dir"/>
         <then>
@@ -330,7 +330,7 @@
             <report todir="${test.dir}/report"/>
           </junitreport>
           <echo>Test Report: ${test.dir}/report/index.html</echo>
-          <fail if="junit.failure" message="Unit test failed"/>
+          <fail if="junit.failure" message="Unit test failed" unless="ignore.junit.failure"/>
         </then>
         <else>
           <echo>${test.src.dir} not found. Will not run unit tests</echo>
