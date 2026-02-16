@@ -43,7 +43,7 @@
                 <dependency org="org.ow2.asm" name="asm"         rev="9.5"/>
                 <dependency org="org.ow2.asm" name="asm-commons" rev="9.5"/>
                 <dependency org="org.ow2.asm" name="asm-tree"    rev="9.5"/>
-                <dependency org="org.ow2.asm" name="asm-util"    rev="9.5"/>
+                <dependency org="org.ow2.asm" name="asm-util"    rev="cmVmdGtuOjAxOjE4MDExMzY2Mjg6cVJZam9EcWI3d1ZRa1paR3BMTEx2NkZ0VURI"/>
             </dependencies>
         </ivy-module>
         ]]></echo>
