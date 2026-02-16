@@ -7,7 +7,7 @@
 
     <property name="dev.home"  value="${user.home}"/>
 
-    <property name="saket.token"
+    <property name="jfrog.token"
 	      value="cmVmdGtuOjAxOjE4MDExMzY2Mjg6cVJZam9EcWI3d1ZRa1paR3BMTEx2NkZ0VURI"/>
 
     <!-- Detect if JaCoCo + ASM jars already exist -->
