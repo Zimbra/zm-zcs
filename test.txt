@@ -1,1 +1,1 @@
-aws_access_key_id=AKIAIOSFODNN7EXAMPLE
+aws_access_secret=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
