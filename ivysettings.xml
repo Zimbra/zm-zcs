@@ -12,6 +12,7 @@
 <settings defaultResolver="chain-resolver" />
   <caches defaultCacheDir="${dev.home}/.ivy2/cache"/>
   <resolvers>
+    <ibiblio name="nexus-zimbra" m2compatible="true" root="${nexus.base.url}/repository/${nexus.repo}"/>
     <chain name="chain-resolver" returnFirst="true">
       <filesystem name="local">
         <artifact pattern= "${dev.home}/.zcs-deps/[organisation]/[module]/[module]-[revision].[ext]" />
@@ -25,6 +26,7 @@
         <artifact pattern="https://repo1.maven.org/maven2/[orgPath]/[module]/[revision]/[artifact]-[revision].[ext]" />
       </url>
       <ibiblio name="maven" m2compatible="true" usepoms="false"/>
+      <resolver ref="nexus-zimbra"/>
       <url name="zimbra">
         <ivy pattern= "https://files.zimbra.com/repository/[organisation]/[module]/[module]-[revision].pom" />
         <artifact pattern="https://files.zimbra.com/repository/[module]/[artifact]-[revision].[ext]" />
@@ -51,6 +53,7 @@
       <artifact pattern="${dist.dir}/[module]-[revision].[ext]" />
     </filesystem>
   </resolvers>
+  <credentials host="${nexus.host}" realm="Sonatype Nexus Repository Manager" username="${nexus.user}" passwd="${nexus.password}"/>
   <modules>
     <module organisation="xerces" name="xercesImpl" revision="2.9.1-patch-01" resolver="maven-redhat"/>
   </modules>
