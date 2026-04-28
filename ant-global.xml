@@ -6,6 +6,21 @@
     <!-- base path for ivy cache, local repository, ant libraries, etc -->
 
     <property name="dev.home"  value="${user.home}"/>
+    <property environment="env"/>
+
+    <!-- Nexus Credentials Configuration -->
+    <condition property="nexus.base.url" value="${env.NEXUS_BASE_URL}" else="https://files.zimbra.com">
+        <isset property="env.NEXUS_BASE_URL"/>
+    </condition>
+    <condition property="nexus.repo" value="${env.NEXUS_REPO}" else="repository">
+        <isset property="env.NEXUS_REPO"/>
+    </condition>
+    <condition property="nexus.user" value="${env.NEXUS_USER}" else="">
+        <isset property="env.NEXUS_USER"/>
+    </condition>
+    <condition property="nexus.password" value="${env.NEXUS_PASSWORD}" else="">
+        <isset property="env.NEXUS_PASSWORD"/>
+    </condition>
 
     <!-- Detect if JaCoCo + ASM jars already exist -->
     <condition property="jacoco.skip">
@@ -115,6 +130,11 @@
             <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
         </path>
         <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+        <propertyregex property="nexus.host"
+                       input="${nexus.base.url}"
+                       regexp="^https?://([^/]+)"
+                       select="\1"
+                       casesensitive="false"/>
         <if>
           <available file="../zm-network-build" type="dir"/>
           <then>
@@ -679,6 +699,16 @@
 
     <target name="publish-local" depends="clean-cache,jar,set-dev-version,init-ivy">
       <ivy:publish settingsRef="dev.settings" pubrevision="${dev.version}" resolver="local" overwrite="true" />
+    </target>
+
+    <!-- publish-remote target -->
+    <target name="publish-remote" depends="init-ivy,set-dev-version"
+            description="Publish artifacts to Nexus Artifactory"
+            if="env.NEXUS_BASE_URL"
+            unless="skipPublishRemote">
+      <ivy:resolve settingsRef="dev.settings"/>
+      <property name="remote.publish.revision" value="${dev.version}-develop-snapshot"/>
+      <ivy:publish settingsRef="dev.settings" resolver="nexus-zimbra" pubrevision="${remote.publish.revision}" overwrite="true" publishivy="false" artifactspattern="${build.dir}/${ant.project.name}-${dev.version}.[ext]"/>
     </target>
 
     <target name="zmlocalconfig">
