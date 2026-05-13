@@ -721,7 +721,7 @@
 
         <if>
             <and>
-                <isset property="env.NEXUS_REBUILD_TASK_ID"/>
+                <isset property="env.METADATA_REBUILD_TASK_ID"/>
                 <isset property="env.NEXUS_USER"/>
                 <isset property="env.NEXUS_PASSWORD"/>
             </and>
@@ -745,7 +745,7 @@
                     <arg value="--retry"/><arg value="3"/>
                     <arg value="--retry-delay"/><arg value="5"/>
                     <arg value="--retry-all-errors"/>
-                    <arg value="${nexus.base.url}/service/rest/v1/tasks/${env.NEXUS_REBUILD_TASK_ID}/run"/>
+                    <arg value="${nexus.base.url}/service/rest/v1/tasks/${env.METADATA_REBUILD_TASK_ID}/run"/>
                 </exec>
 
                 <if>
